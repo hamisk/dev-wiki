@@ -1,13 +1,17 @@
 const express = require('express');
+const cors = require('cors');
+const app = express();
 
-express()
-  .set('view engine', 'ejs')
-  // what's ejs?
-  .use(express.static('./public'))
-  .use(require('./accounts'))
-  .get('*', (req, res) => {
-    res.render('index', {
-      user: JSON.stringify(req.session.user || null),
-    });
-  })
-  .listen(3000);
+const accountRoutes = require('./routes/accounts');
+
+const port = 4000;
+
+app.use(express.json());
+app.use(cors());
+app.use(express.static('public'));
+
+app.use('/users', accountRoutes);
+
+app.listen(port, function () {
+  console.log(`Connected to server at port ${port}`);
+});
