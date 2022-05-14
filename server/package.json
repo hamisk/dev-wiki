@@ -1,0 +1,21 @@
+{
+  "name": "dev-wiki-server",
+  "version": "1.0.0",
+  "description": "A live collaborative wiki",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.18.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.8",
+    "express-session": "^1.17.3",
+    "firebase": "^9.8.1"
+  }
+}
