@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Page from './components/Page/Page';
 import Sidebar from './components/Sidebar/Sidebar';
+import './App.css';
 
 function App() {
   const [user, setUser] = useState('');
@@ -9,8 +10,10 @@ function App() {
   return (
     <div className='App'>
       <BrowserRouter>
-        <Sidebar />
-        <Routes>{/* <Route path='/page/:id' element={<Page />} /> */}</Routes>
+        <Sidebar user={user} />
+        <Routes>
+          <Route path='/page/:id' element={<Page />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );
