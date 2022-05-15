@@ -11,3 +11,5 @@ const post = (url: string, body?: any) =>
 export const signin = (username: string, password: string) => post(apiURL + '/users/signin', { username, password });
 export const signup = (username: string, password: string) => post(apiURL + '/users/signup', { username, password });
 export const signout = () => post(apiURL + '/users/signout');
+
+export const createPage = (pageTitle: string) => post(apiURL + '/page/create', pageTitle);

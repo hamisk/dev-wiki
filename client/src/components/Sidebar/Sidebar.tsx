@@ -1,5 +1,6 @@
 import React from 'react';
 import Login from '../Login/Login';
+import PageList from '../PageList/PageList';
 
 type Props = {
   user: any;
@@ -12,7 +13,7 @@ function Sidebar({ user, setUser }: Props) {
       <div className='three-columns'>
         <h1>Dev Wiki</h1>
         <Login user={user} setUser={setUser} />
-        Login PageList
+        <PageList user={user} />
       </div>
       <div className='nine-columns'></div>
     </div>
