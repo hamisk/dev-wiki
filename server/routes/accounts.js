@@ -20,6 +20,7 @@ router.use(
 
 router.post('/signup', (req, res) => {
   console.log('Signup attempt');
+  console.log(req.body);
   const username = req.body.username,
     password = req.body.password;
 

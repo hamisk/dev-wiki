@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
+import axios from 'axios';
 import * as API from '../../api';
+const apiURL = 'http://localhost:4000';
 
 type Props = {
   user: any;
@@ -14,38 +16,52 @@ function Login({ user, setUser }: Props) {
     if (usernameEl.current && passwordEl.current) {
       const username = usernameEl.current.value;
       const password = passwordEl.current.value;
-
-      API.signin(username, password).then(response => {
-        if (response.ok) {
-          response.json().then(json => {
-            console.log(json);
-            setUser(json.user);
-          });
-        }
-        // setUser(res.data.user)
-      });
+      axios
+        .post(apiURL + '/users/signin', { username, password }, { headers: { 'Content-Type': 'application/json' } })
+        .then(res => {
+          setUser(res.data.user);
+        });
     }
+
+    // API.signin(username, password).then(response => {
+    //   if (response.ok) {
+    //     response.json().then(json => {
+    //       console.log(json);
+    //       setUser(json.user);
+    //     });
+    //   }
+    // });
   };
 
   const signout = () => {
-    API.signout().then(response => setUser(null));
+    axios.post(apiURL + '/users/signout').then(res => console.log(res.data));
+    // API.signout().then(response => setUser(null));
+    setUser(null);
   };
 
   const signup = () => {
     if (usernameEl.current && passwordEl.current) {
       const username = usernameEl.current.value;
       const password = passwordEl.current.value;
-
-      API.signup(username, password).then(response => {
-        console.log(response);
-        if (response.ok) {
-          response.json().then(json => {
-            console.log(json);
-            setUser(json.user);
-          });
-        }
-      });
+      axios
+        .post(apiURL + '/users/signup', { username, password }, { headers: { 'Content-Type': 'application/json' } })
+        .then(res => {
+          setUser(res.data.user);
+        });
     }
+    // if (usernameEl.current && passwordEl.current) {
+    //   const username = usernameEl.current.value;
+    //   const password = passwordEl.current.value;
+    //   API.signup(username, password).then(response => {
+    //     console.log(response);
+    //     if (response.ok) {
+    //       response.json().then(json => {
+    //         console.log(json);
+    //         setUser(json.user);
+    //       });
+    //     }
+    //   });
+    // }
   };
 
   return (

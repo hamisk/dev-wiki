@@ -1,5 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import * as API from '../../api';
+const apiURL = 'http://localhost:4000';
 
 type Props = {
   user: any;
@@ -15,7 +17,11 @@ function PageList({ user }: Props) {
 
   const createPage = (e: any) => {
     if (e.charCode !== 13) return;
-    API.createPage(newPageTitle);
+    console.log(newPageTitle);
+    axios
+      .post(apiURL + '/page/create', { pageTitle: newPageTitle })
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
     setNewPageTitle('');
   };
 
