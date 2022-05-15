@@ -5,12 +5,12 @@ import Sidebar from './components/Sidebar/Sidebar';
 import './App.css';
 
 function App() {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState({});
 
   return (
     <div className='App'>
       <BrowserRouter>
-        <Sidebar user={user} />
+        <Sidebar user={user} setUser={setUser} />
         <Routes>
           <Route path='/page/:id' element={<Page />} />
         </Routes>

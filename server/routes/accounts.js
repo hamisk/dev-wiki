@@ -19,6 +19,7 @@ router.use(
 );
 
 router.post('/signup', (req, res) => {
+  console.log('Signup attempt');
   const username = req.body.username,
     password = req.body.password;
 
@@ -44,6 +45,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/signin', (req, res) => {
+  console.log('Signin attempt');
   const username = req.body.username,
     password = req.body.password;
 
@@ -62,6 +64,7 @@ router.post('/signin', (req, res) => {
 });
 
 router.post('/signout', (req, res) => {
+  console.log('Signout attempt');
   delete req.session.user;
   res.json({
     signedIn: false,
