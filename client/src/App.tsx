@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
         <Sidebar user={user} setUser={setUser} />
         <Routes>
-          <Route path='/page/:title' element={<Page />} />
+          <Route path='/page/:title' element={<Page user={user} />} />
         </Routes>
       </BrowserRouter>
     </div>

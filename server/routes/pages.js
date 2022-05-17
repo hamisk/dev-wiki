@@ -13,7 +13,6 @@ router.post('/create', (req, res) => {
   const pageObject = {
     id: uuidv4(),
     pageTitle: pageTitle,
-    content: '',
   };
 
   database.push(pageObject);
