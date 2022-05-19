@@ -18,7 +18,7 @@ function Page({ user }: Props) {
     axios.get(apiURL + '/page/' + params.title).then(res => {
       setPage(res.data.page);
       setSections(res.data.page.sections);
-      console.log(res.data.page);
+      // console.log(res.data.page);
     });
   }, [params]);
 
@@ -34,7 +34,7 @@ function Page({ user }: Props) {
                 section={section}
                 key={section.sectionId}
                 user={user}
-                path={params.id + '/sections/' + section.sectionId}
+                path={params.title + '/sections/' + section.sectionId}
               />
             );
           })

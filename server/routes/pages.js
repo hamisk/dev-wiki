@@ -32,4 +32,21 @@ router.get('/:title', (req, res) => {
   res.status(200).json({ page: page });
 });
 
+router.post('/editor/:title/sections/:sectionId', (req, res) => {
+  const database = JSON.parse(fs.readFileSync('./database/database.json'));
+  console.log(req.body.username);
+  console.log(req.params.title);
+  console.log(req.params.sectionId);
+  const username = req.body.username;
+  const pageTitle = req.params.title;
+  const sectionId = Number(req.params.sectionId);
+
+  database
+    .find(obj => obj.pageTitle.replace(/\s+/g, '-').toLowerCase() === pageTitle)
+    .sections.find(obj => obj.sectionId === sectionId).editor = username;
+
+  fs.writeFileSync('./database/database.json', JSON.stringify(database));
+  res.status(200).json({ addedEditor: true, page: pageTitle, section: sectionId, editor: username });
+});
+
 module.exports = router;

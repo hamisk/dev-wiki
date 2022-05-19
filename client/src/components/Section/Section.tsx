@@ -1,6 +1,9 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import './Section.scss';
+
+const apiURL = 'http://localhost:4000';
 
 type Props = {
   section: any;
@@ -27,17 +30,30 @@ function Section({ section, user, path }: Props) {
     // also need to store in the database that the current user is now the editor of this section
     // to let other users know that it's currently being edited, so they can't edit it
     console.log(path);
+    axios
+      .post(
+        apiURL + '/page/editor/' + path,
+        { username: user.username },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then(res => {
+        console.log(res.data);
+      });
   };
-  // console.log(user.username === section.editor);
-  console.log(user);
-  // console.log(section.editor);
 
-  console.log(editing);
+  const updateContent = (e: any) => {
+    setContent(e.target.value);
+  };
+
+  const save = () => {
+    // onBlur is an event handler that checks for when element is no longer in focus
+    setEditing(false);
+  };
 
   return (
     <section className='section' onClick={startEditing}>
       {editing ? (
-        <textarea className='section__editing' defaultValue={content} />
+        <textarea className='section__editing' defaultValue={content} onChange={updateContent} onBlur={save} />
       ) : (
         <ReactMarkdown>{content}</ReactMarkdown>
       )}

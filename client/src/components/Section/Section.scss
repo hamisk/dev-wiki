@@ -3,6 +3,10 @@
   border-radius: 0.25rem;
   border: 1px solid darkblue;
   margin-bottom: 1rem;
+
+  &__editing {
+    border: 1px solid lightseagreen;
+  }
 }
 
 .section :last-child {
