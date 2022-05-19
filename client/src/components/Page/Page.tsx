@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { arrayBuffer } from 'stream/consumers';
 import Section from '../Section/Section';
 import './Page.scss';
 const apiURL = 'http://localhost:4000';
@@ -20,9 +21,24 @@ function Page({ user }: Props) {
       setSections(res.data.page.sections);
       // console.log(res.data.page);
     });
-  }, [params]);
+  }, [params, page]);
 
-  const addSection = () => {};
+  const addSection = (e: any) => {
+    let id;
+
+    if (!sections) {
+      id = 1;
+      setSections({});
+    } else {
+      id = Math.max(...sections.map((o: any) => o.sectionId)) + 1;
+    }
+
+    sections[id] = {
+      editor: user.username,
+    };
+
+    setSections(sections);
+  };
 
   return (
     <div className='page'>

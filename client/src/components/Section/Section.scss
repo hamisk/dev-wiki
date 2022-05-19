@@ -3,6 +3,7 @@
   border-radius: 0.25rem;
   border: 1px solid darkblue;
   margin-bottom: 1rem;
+  text-align: left;
 
   &__editing {
     border: 1px solid lightseagreen;
@@ -11,4 +12,13 @@
 
 .section :last-child {
   margin-bottom: 0;
+}
+
+.editable:not(.editing):hover {
+  border-color: grey;
+}
+
+.locked {
+  border-color: #ececec;
+  background-color: #d1d1d1;
 }
