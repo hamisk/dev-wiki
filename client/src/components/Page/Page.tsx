@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { arrayBuffer } from 'stream/consumers';
 import Section from '../Section/Section';
 import './Page.scss';
 const apiURL = 'http://localhost:4000';

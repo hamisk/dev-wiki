@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import axios from 'axios';
-import * as API from '../../api';
 const apiURL = 'http://localhost:4000';
 
 type Props = {
@@ -47,21 +46,13 @@ function Login({ user, setUser }: Props) {
         .post(apiURL + '/users/signup', { username, password }, { headers: { 'Content-Type': 'application/json' } })
         .then(res => {
           setUser(res.data.user);
+          let token = res.data.token;
+          sessionStorage.setItem('authToken', token);
+        })
+        .catch(err => {
+          console.log(err);
         });
     }
-    // if (usernameEl.current && passwordEl.current) {
-    //   const username = usernameEl.current.value;
-    //   const password = passwordEl.current.value;
-    //   API.signup(username, password).then(response => {
-    //     console.log(response);
-    //     if (response.ok) {
-    //       response.json().then(json => {
-    //         console.log(json);
-    //         setUser(json.user);
-    //       });
-    //     }
-    //   });
-    // }
   };
 
   return (

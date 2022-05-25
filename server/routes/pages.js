@@ -52,9 +52,6 @@ router.post('/editor/:title/sections/:sectionId', (req, res) => {
 
 router.post('/save/:title/sections/:sectionId', (req, res) => {
   const database = JSON.parse(fs.readFileSync('./database/database.json'));
-  console.log(req.body.content);
-  console.log(req.params.title);
-  console.log(req.params.sectionId);
   const content = req.body.content;
   const pageTitle = req.params.title;
   const sectionId = Number(req.params.sectionId);
