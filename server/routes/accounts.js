@@ -82,6 +82,7 @@ router.post('/signin', (req, res) => {
       signedIn: true,
       message: 'Successfully logged in',
       token: token,
+      user: user,
     });
   }
 });
@@ -111,7 +112,8 @@ router.get('/check-auth', authorize, (req, res) => {
 
   // send back username
   return res.status(200).json({
-    username: user.username,
+    signedIn: true,
+    user: user,
   });
 });
 

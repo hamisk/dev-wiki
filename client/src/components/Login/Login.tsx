@@ -16,7 +16,7 @@ function Login({ user, setUser }: Props) {
     let token = sessionStorage.getItem('authToken');
     if (!!token) {
       axios
-        .get(`${apiURL}/auth/check-auth`, {
+        .get(`${apiURL}/users/check-auth`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(res => {
@@ -26,7 +26,7 @@ function Login({ user, setUser }: Props) {
           console.log(err);
         });
     }
-  });
+  }, []);
 
   const signin = () => {
     if (usernameEl.current && passwordEl.current) {
@@ -35,7 +35,11 @@ function Login({ user, setUser }: Props) {
       axios
         .post(apiURL + '/users/signin', { username, password }, { headers: { 'Content-Type': 'application/json' } })
         .then(res => {
+          let token = res.data.token;
+          sessionStorage.setItem('authToken', token);
           setUser(res.data.user);
+          console.log(user);
+          console.log(res.data.user);
         });
     }
   };
