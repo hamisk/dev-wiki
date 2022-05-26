@@ -12,7 +12,7 @@ type Props = {
 };
 
 function Section({ section, user, path }: Props) {
-  const [content, setContent] = useState(section.content);
+  const [content, setContent] = useState('section.content');
   const [editing, setEditing] = useState<boolean>(user && user.username === section.editor);
   // editing = boolean: user - to see if a user is currently logged in
   // user.username === section.editor
@@ -23,8 +23,9 @@ function Section({ section, user, path }: Props) {
   const [locked, setLocked] = useState<boolean>(user && section.editor && user.username !== section.editor);
 
   useEffect(() => {
-    makeLinks(content, (content: any) => setContent(content));
-  }, []);
+    // makeLinks(content, (content: any) => setContent(content));
+    setContent(section.content);
+  }, [section]);
 
   const startEditing = (e: any) => {
     if (e.target.tagName === 'A') {

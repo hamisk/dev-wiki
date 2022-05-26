@@ -18,8 +18,6 @@ function Page({ user }: Props) {
     axios.get(apiURL + '/page/' + params.title).then(res => {
       setPage(res.data.page);
       setSections(res.data.page.sections);
-      console.log(res.data.page);
-      console.log(res.data.page.sections);
     });
   }, [params]);
 
