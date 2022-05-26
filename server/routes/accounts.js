@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const fs = require('fs');
 
+const authorize = require('../middleware/authorize');
+
 const users = JSON.parse(fs.readFileSync('./database/users.json'));
 
 const hash = password => {
@@ -90,6 +92,26 @@ router.post('/signout', (req, res) => {
   res.json({
     signedIn: false,
     message: 'You have been signed out',
+  });
+});
+
+router.get('/check-auth', authorize, (req, res) => {
+  console.log('req.decoded in /users/check-auth route', req.decoded);
+  // if valid token, continue
+  const usernameFromToken = req.decoded.username;
+
+  // find the user from users using username from the token
+  const user = users.find(userObj => userObj.username === usernameFromToken);
+
+  if (!user) {
+    return res.status(400).json({
+      message: 'User does not exist',
+    });
+  }
+
+  // send back username
+  return res.status(200).json({
+    username: user.username,
   });
 });
 
