@@ -51,14 +51,32 @@ router.post('/editor/:title/sections/:sectionId', (req, res) => {
 });
 
 router.post('/save/:title/sections/:sectionId', (req, res) => {
+  console.log('save route');
+  console.log(req.body);
   const database = JSON.parse(fs.readFileSync('./database/database.json'));
   const content = req.body.content;
   const pageTitle = req.params.title;
   const sectionId = Number(req.params.sectionId);
+  console.log(content);
+  console.log(pageTitle);
+  console.log(sectionId);
 
-  database
-    .find(obj => obj.pageTitle.replace(/\s+/g, '-').toLowerCase() === pageTitle)
-    .sections.find(obj => obj.sectionId === sectionId).content = content;
+  // update existing section
+  if (
+    database
+      .find(obj => obj.pageTitle.replace(/\s+/g, '-').toLowerCase() === pageTitle)
+      .sections.find(obj => obj.sectionId === sectionId)
+  ) {
+    database
+      .find(obj => obj.pageTitle.replace(/\s+/g, '-').toLowerCase() === pageTitle)
+      .sections.find(obj => obj.sectionId === sectionId).content = content;
+  } else {
+    database.find(obj => obj.pageTitle.replace(/\s+/g, '-').toLowerCase() === pageTitle).sections[sectionId] = {
+      sectionId: sectionId,
+      content: content,
+    };
+  }
+
   database
     .find(obj => obj.pageTitle.replace(/\s+/g, '-').toLowerCase() === pageTitle)
     .sections.find(obj => obj.sectionId === sectionId).editor = null;

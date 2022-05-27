@@ -22,37 +22,43 @@ function Page({ user }: Props) {
   }, [params]);
 
   const addSection = (e: any) => {
+    const newSections = sections.slice();
+    // .slice() to create a copy but change reference, so setSection picks up on the change
     let id;
 
     if (!sections) {
       id = 1;
-      setSections({});
+      return setSections([{ sectionId: id, content: 'new content here' }]);
     } else {
       id = Math.max(...sections.map((o: any) => o.sectionId)) + 1;
+      // newSections.push({ sectionId: id, content: '' });
     }
 
-    sections[id] = {
+    newSections[id] = {
+      sectionId: id,
+      content: 'new content here',
       editor: user.username,
     };
 
-    setSections(sections);
+    return setSections(newSections);
+  };
+
+  const renderSections = () => {
+    return sections.map((section: any) => (
+      <Section
+        section={section}
+        key={section.sectionId * 7}
+        user={user}
+        path={params.title + '/sections/' + section.sectionId}
+      />
+    ));
   };
 
   return (
     <div className='page'>
       <h1 className='page__title'>{page.pageTitle || 'loading'}</h1>
-      {sections
-        ? sections.map((section: any) => {
-            return (
-              <Section
-                section={section}
-                key={section.sectionId}
-                user={user}
-                path={params.title + '/sections/' + section.sectionId}
-              />
-            );
-          })
-        : ''}
+      {/* {sections && console.log(sections)} */}
+      {sections && renderSections()}
       {user ? (
         <button className='page__button' onClick={addSection}>
           Add Section

@@ -12,7 +12,7 @@ type Props = {
 };
 
 function Section({ section, user, path }: Props) {
-  const [content, setContent] = useState('section.content');
+  const [content, setContent] = useState(section.content);
   const [editing, setEditing] = useState<boolean>(user && user.username === section.editor);
   // editing = boolean: user - to see if a user is currently logged in
   // user.username === section.editor
@@ -30,7 +30,6 @@ function Section({ section, user, path }: Props) {
   const startEditing = (e: any) => {
     if (e.target.tagName === 'A') {
       //don't want to enable editing if user just clicking a link
-
       return;
     }
     // don't run this function if we don't have a logged in user, or if they're already editing
@@ -62,11 +61,11 @@ function Section({ section, user, path }: Props) {
     axios
       .post(
         apiURL + '/page/save/' + path,
-        { content: content || null }, // If content is empty, ie if user removes content, then null is sent to database to store in section
+        { content: content || 'empty' }, // If content is empty, ie if user removes content, then null is sent to database to store in section
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
       });
   };
 
