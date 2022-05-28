@@ -1,12 +1,19 @@
 .section {
-  padding: 0.25rem;
+  padding: 1rem;
   border-radius: 0.25rem;
   border: 1px solid darkblue;
   margin-bottom: 1rem;
   text-align: left;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
 
   &__editing {
     border: 1px solid lightseagreen;
+    width: 98%;
+    height: 12rem;
+    border-radius: 0.25rem;
   }
 }
 

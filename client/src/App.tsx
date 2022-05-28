@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Page from './components/Page/Page';
 import Sidebar from './components/Sidebar/Sidebar';
-import './App.css';
 
 function App() {
   const [user, setUser] = useState(null);

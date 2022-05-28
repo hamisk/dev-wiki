@@ -100,7 +100,13 @@ function Section({ section, user, path }: Props) {
   return (
     <section className='section' onClick={startEditing}>
       {editing ? (
-        <textarea className={classes.join(' ')} defaultValue={content} onChange={updateContent} onBlur={save} />
+        <textarea
+          autoFocus
+          className={classes.join(' ')}
+          defaultValue={content}
+          onChange={updateContent}
+          onBlur={save}
+        />
       ) : (
         <ReactMarkdown>{content}</ReactMarkdown>
       )}

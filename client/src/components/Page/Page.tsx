@@ -43,22 +43,18 @@ function Page({ user }: Props) {
     return setSections(newSections);
   };
 
-  const renderSections = () => {
-    return sections.map((section: any) => (
-      <Section
-        section={section}
-        key={section.sectionId * 7}
-        user={user}
-        path={params.title + '/sections/' + section.sectionId}
-      />
-    ));
-  };
-
   return (
     <div className='page'>
       <h1 className='page__title'>{page.pageTitle || 'loading'}</h1>
-      {/* {sections && console.log(sections)} */}
-      {sections && renderSections()}
+      {sections &&
+        sections.map((section: any) => (
+          <Section
+            section={section}
+            key={section.sectionId * 7}
+            user={user}
+            path={params.title + '/sections/' + section.sectionId}
+          />
+        ))}
       {user ? (
         <button className='page__button' onClick={addSection}>
           Add Section
