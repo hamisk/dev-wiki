@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
+import './Login.scss';
 const apiURL = 'http://localhost:4000';
 
 type Props = {
@@ -13,6 +14,7 @@ function Login({ user, setUser }: Props) {
 
   useEffect(() => {
     // Check auth
+    console.log('login useEffect');
     let token = sessionStorage.getItem('authToken');
     if (!!token) {
       axios
@@ -20,6 +22,7 @@ function Login({ user, setUser }: Props) {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(res => {
+          console.log('set user');
           setUser(res.data.user);
         })
         .catch(err => {
@@ -38,8 +41,6 @@ function Login({ user, setUser }: Props) {
           let token = res.data.token;
           sessionStorage.setItem('authToken', token);
           setUser(res.data.user);
-          console.log(user);
-          console.log(res.data.user);
         });
     }
   };
@@ -80,12 +81,14 @@ function Login({ user, setUser }: Props) {
         <>
           <input type='text' className='login__input' placeholder='Username' ref={usernameEl} />
           <input type='password' className='login__input' placeholder='Password' ref={passwordEl} />
-          <button className='login__button' onClick={signin}>
-            Sign In
-          </button>
-          <button className='login__button' onClick={signup}>
-            Sign Up
-          </button>
+          <div className='login__b-wrapper'>
+            <button className='login__button' onClick={signin}>
+              Sign In
+            </button>
+            <button className='login__button' onClick={signup}>
+              Sign Up
+            </button>
+          </div>
         </>
       )}
     </div>
@@ -93,11 +96,3 @@ function Login({ user, setUser }: Props) {
 }
 
 export default Login;
-
-// signOut = () => {
-//   // Change location to /logout server route while passing it
-//   // the URL for redirecting back to a client
-//   sessionStorage.removeItem('authToken')
-//   const url = `${window.location.protocol}//${window.location.host}`;
-//   window.location = `${API_URL}/auth/logout?from=${url}`;
-// };
