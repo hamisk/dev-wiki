@@ -7,14 +7,15 @@ import { collection, getDocs } from 'firebase/firestore';
 
 function App() {
   const [user, setUser] = useState(null);
-  const [userlist, setUserlist] = useState([]);
+  const [userlist, setUserlist] = useState<any>([]);
 
   const usersCollectionRef = collection(database, 'users');
 
   useEffect(() => {
     const getUsers = async () => {
       const data = await getDocs(usersCollectionRef);
-      console.log(data);
+      // console.log(data);
+      setUserlist(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
     };
     getUsers();
   }, []);

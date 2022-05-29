@@ -54,6 +54,7 @@ router.post('/signup', (req, res) => {
     signedIn: true,
     message: 'Successfully logged in',
     token: token,
+    user: userObject,
   });
 });
 

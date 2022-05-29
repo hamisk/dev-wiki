@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Login.scss';
+import { database } from '../../firebase-config';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
+
 const apiURL = 'http://localhost:4000';
 
 type Props = {
@@ -12,11 +15,14 @@ function Login({ user, setUser }: Props) {
   const usernameEl = useRef<HTMLInputElement | null>(null);
   const passwordEl = useRef<HTMLInputElement | null>(null);
 
+  const usersCollectionRef = collection(database, 'users');
+
   useEffect(() => {
     // Check auth
     console.log('login useEffect');
     let token = sessionStorage.getItem('authToken');
-    if (!!token) {
+
+    if (token !== (undefined || null)) {
       axios
         .get(`${apiURL}/users/check-auth`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -41,6 +47,7 @@ function Login({ user, setUser }: Props) {
           let token = res.data.token;
           sessionStorage.setItem('authToken', token);
           setUser(res.data.user);
+          console.log(res.data);
         });
     }
   };
@@ -58,6 +65,7 @@ function Login({ user, setUser }: Props) {
       axios
         .post(apiURL + '/users/signup', { username, password }, { headers: { 'Content-Type': 'application/json' } })
         .then(res => {
+          console.log(res.data);
           setUser(res.data.user);
           let token = res.data.token;
           sessionStorage.setItem('authToken', token);
@@ -65,7 +73,13 @@ function Login({ user, setUser }: Props) {
         .catch(err => {
           console.log(err);
         });
+
+      fbCreateUser(username, password);
     }
+  };
+
+  const fbCreateUser = async (username: string, password: string) => {
+    await addDoc(usersCollectionRef, { username: username, password: password });
   };
 
   return (

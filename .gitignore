@@ -9,8 +9,9 @@
 */.pnp.js
 
 # config
-*/*/.env
-*/.env
+# */*/.env
+# */.env
+client/.env
 client/src/.env
 
 # testing
