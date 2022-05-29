@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Page from './components/Page/Page';
 import Sidebar from './components/Sidebar/Sidebar';
+import { database } from './firebase-config';
+import { collection, getDocs } from 'firebase/firestore';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [userlist, setUserlist] = useState([]);
+
+  const usersCollectionRef = collection(database, 'users');
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      console.log(data);
+    };
+    getUsers();
+  }, []);
 
   return (
     <div className='App'>
