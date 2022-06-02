@@ -4,13 +4,13 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from '@firebase/firestore';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-const apiKey = process.env.REACT_APP_APIKEY;
-const authDomain = process.env.REACT_APP_AUTHDOMAIN;
-const databaseURL = process.env.REACT_APP_DATABASEURL;
-const projectId = process.env.REACT_APP_PROJECTID;
-const storageBucket = process.env.REACT_APP_STORAGEBUCKET;
-const messagingSenderId = process.env.REACT_APP_MESSAGINGSENDERID;
-const appId = process.env.REACT_APP_APPID;
+const apiKey = process.env.APIKEY;
+const authDomain = process.env.AUTHDOMAIN;
+const databaseURL = process.env.DATABASEURL;
+const projectId = process.env.PROJECTID;
+const storageBucket = process.env.STORAGEBUCKET;
+const messagingSenderId = process.env.MESSAGINGSENDERID;
+const appId = process.env.APPID;
 
 // Your web app's Firebase configuration
 // Populate these variables from .env for security

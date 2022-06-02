@@ -4,6 +4,9 @@ const crypto = require('crypto');
 const fs = require('fs');
 
 const authorize = require('../middleware/authorize');
+const database = require('../firebase-config');
+const firebase = require();
+import { collection, getDocs } from 'firebase/firestore';
 
 const users = JSON.parse(fs.readFileSync('./database/users.json'));
 
@@ -19,6 +22,13 @@ router.use(
     secret: 'longrandomstringofmychoosingthatwillbeusedasthesecret',
   })
 );
+
+// Fetching users from firebase
+const usersCollectionRef = collection(database, 'users');
+const getUsers = async () => {
+  const data = await getDocs(usersCollectionRef);
+  const userList = data.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+};
 
 router.post('/signup', (req, res) => {
   console.log('Signup attempt');
