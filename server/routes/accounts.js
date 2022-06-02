@@ -1,12 +1,13 @@
+// import { database } from '../firebase-config.mjs';
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const fs = require('fs');
 
-const authorize = require('../middleware/authorize');
-const database = require('../firebase-config');
-const firebase = require();
-import { collection, getDocs } from 'firebase/firestore';
+const authorize = require('../middleware/authorize.js');
+const database = require('../firebase-config.js');
+// const firebase = require('firebase');
+// import { collection, getDocs } from 'firebase/firestore';
 
 const users = JSON.parse(fs.readFileSync('./database/users.json'));
 
@@ -24,11 +25,14 @@ router.use(
 );
 
 // Fetching users from firebase
-const usersCollectionRef = collection(database, 'users');
-const getUsers = async () => {
-  const data = await getDocs(usersCollectionRef);
-  const userList = data.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-};
+// const usersCollectionRef = collection(database, 'users');
+console.log(database.collection('users'));
+// const getUsers = async () => {
+//   const data = await getDocs(usersCollectionRef);
+//   const userList = data.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+//   console.log(userList);
+// };
+// getUsers();
 
 router.post('/signup', (req, res) => {
   console.log('Signup attempt');

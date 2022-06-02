@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-const accountRoutes = require('./routes/accounts');
+const accountRoutes = require('./routes/accounts.js');
 const pageRoutes = require('./routes/pages');
 
 const port = 4000;

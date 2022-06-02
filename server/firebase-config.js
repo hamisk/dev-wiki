@@ -1,8 +1,15 @@
+require('dotenv').config();
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
 // TODO: Add SDKs for Firebase products that you want to use
-import { getFirestore } from '@firebase/firestore';
-// https://firebase.google.com/docs/web/setup#available-libraries
+// const firebase = require('firebase');
+const admin = require('firebase-admin');
+
+const serviceAccount = require('./servicekey.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://dev-wiki-57987-default-rtdb.firebaseio.com',
+});
 
 const apiKey = process.env.APIKEY;
 const authDomain = process.env.AUTHDOMAIN;
@@ -25,7 +32,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// admin.initializeApp(firebaseConfig);
 
 // Get a reference to the database service
-export const database = getFirestore(app);
+const database = admin.firestore();
+// const database = app.firestore.getFirestore(firebaseApp);
+
+module.exports = database;
