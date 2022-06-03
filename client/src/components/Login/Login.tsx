@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Login.scss';
-import { database } from '../../firebase-config';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
 
 const apiURL = 'http://localhost:4000';
 
@@ -14,8 +12,6 @@ type Props = {
 function Login({ user, setUser }: Props) {
   const usernameEl = useRef<HTMLInputElement | null>(null);
   const passwordEl = useRef<HTMLInputElement | null>(null);
-
-  const usersCollectionRef = collection(database, 'users');
 
   useEffect(() => {
     // Check auth
@@ -79,7 +75,7 @@ function Login({ user, setUser }: Props) {
   };
 
   const fbCreateUser = async (username: string, password: string) => {
-    await addDoc(usersCollectionRef, { username: username, password: password });
+    // await addDoc(usersCollectionRef, { username: username, password: password });
   };
 
   return (

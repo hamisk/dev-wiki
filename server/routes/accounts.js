@@ -1,4 +1,3 @@
-// import { database } from '../firebase-config.mjs';
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -6,8 +5,6 @@ const fs = require('fs');
 
 const authorize = require('../middleware/authorize.js');
 const database = require('../firebase-config.js');
-// const firebase = require('firebase');
-// import { collection, getDocs } from 'firebase/firestore';
 
 const users = JSON.parse(fs.readFileSync('./database/users.json'));
 
@@ -20,7 +17,7 @@ router.use(
   require('express-session')({
     resave: false,
     saveUninitialized: true,
-    secret: 'longrandomstringofmychoosingthatwillbeusedasthesecret',
+    secret: process.env.JWT_SECRET_KEY,
   })
 );
 

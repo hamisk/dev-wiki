@@ -35,9 +35,9 @@ router.get('/:title', (req, res) => {
 router.post('/editor/:title/sections/:sectionId', (req, res) => {
   // When user clicks on section to edit - add editor to section
   const database = JSON.parse(fs.readFileSync('./database/database.json'));
-  console.log(req.body.username);
-  console.log(req.params.title);
-  console.log(req.params.sectionId);
+  // console.log(req.body.username);
+  // console.log(req.params.title);
+  // console.log(req.params.sectionId);
   const username = req.body.username;
   const pageTitle = req.params.title;
   const sectionId = Number(req.params.sectionId);
@@ -57,9 +57,9 @@ router.post('/save/:title/sections/:sectionId', (req, res) => {
   const content = req.body.content;
   const pageTitle = req.params.title;
   const sectionId = Number(req.params.sectionId);
-  console.log(content);
-  console.log(pageTitle);
-  console.log(sectionId);
+  // console.log(content);
+  // console.log(pageTitle);
+  // console.log(sectionId);
 
   // update existing section
   if (
