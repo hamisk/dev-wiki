@@ -6,6 +6,8 @@ const fs = require('fs');
 const authorize = require('../middleware/authorize.js');
 const database = require('../firebase/firebase-config');
 
+const usersRef = database.collection('users');
+
 const users = JSON.parse(fs.readFileSync('./database/users.json'));
 
 const hash = password => {
@@ -22,14 +24,14 @@ router.use(
 );
 
 // Fetching users from firebase
-// const usersCollectionRef = collection(database, 'users');
-console.log(database.collection('users'));
-// const getUsers = async () => {
-//   const data = await getDocs(usersCollectionRef);
-//   const userList = data.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-//   console.log(userList);
-// };
-// getUsers();
+const getUsers = async () => {
+  const userList = [];
+  const usersSnapshot = await usersRef.get();
+  usersSnapshot.forEach(doc => {
+    userList.push(doc.data());
+  });
+};
+getUsers();
 
 router.post('/signup', (req, res) => {
   console.log('Signup attempt');
@@ -71,32 +73,40 @@ router.post('/signup', (req, res) => {
 
 router.post('/signin', (req, res) => {
   console.log('Signin attempt');
-  const username = req.body.username,
-    password = req.body.password;
+  const userList = [];
+  // get user list from 'users' collection (table) in firestore
+  usersRef.get().then(snapshot => {
+    snapshot.forEach(doc => userList.push(doc.data()));
 
-  if (!username || !password) {
-    return res.json({ signedIn: false, message: 'no username or password' });
-  }
+    const username = req.body.username,
+      password = req.body.password;
 
-  const user = users.find(userObj => userObj.username === username);
-  if (user) {
-    if (user.passwordHash !== hash(password)) {
-      return res.json({ signedIn: false, message: 'wrong username or password' });
+    if (!username || !password) {
+      return res.json({ signedIn: false, message: 'no username or password' });
     }
-    // it is a valid password at this point, create and return JWT
-    const token = jwt.sign(
-      { username: username }, // 1. payload
-      process.env.JWT_SECRET_KEY, // 2. secret key
-      { expiresIn: '6h' } // 3. options
-    );
 
-    res.status(200).json({
-      signedIn: true,
-      message: 'Successfully logged in',
-      token: token,
-      user: user,
-    });
-  }
+    const user = userList.find(userObj => userObj.username === username);
+    if (!user) {
+      return res.json({ signedIn: false, message: 'no user with this username' });
+    } else if (user) {
+      if (user.passwordHash !== hash(password)) {
+        return res.json({ signedIn: false, message: 'wrong username or password' });
+      }
+      // it is a valid password at this point, create and return JWT
+      const token = jwt.sign(
+        { username: username }, // 1. payload
+        process.env.JWT_SECRET_KEY, // 2. secret key
+        { expiresIn: '6h' } // 3. options
+      );
+
+      res.status(200).json({
+        signedIn: true,
+        message: 'Successfully logged in',
+        token: token,
+        user: user,
+      });
+    }
+  });
 });
 
 router.post('/signout', (req, res) => {
