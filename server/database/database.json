@@ -1,1 +1,82 @@
-[{"id":"a51eb318-461e-4dd0-9775-810745ec1032","pageTitle":"page 1","sections":[{"sectionId":0,"content":"## This dev-wiki \n","editor":null},{"sectionId":1,"content":"- undefined\n- add section button - adds section before section component maps all sections\n- Currently not listening to live changes in the database - unable to update if change is saved to contents to section of a page automatically. \n- Need to add an event listener to the database, to update the contents in state in page.tsx\n- about 10 mins in: [editing sections](https://code.tutsplus.com/courses/building-a-wiki-with-react-and-firebase/lessons/section-component-editing-sections)\n- implement internal links [working with internal links](https://code.tutsplus.com/courses/building-a-wiki-with-react-and-firebase/lessons/working-with-internal-links)","editor":null},{"sectionId":2,"content":"To do:\n- [communicating with firebase from the backend - example](https://github.com/salahmak/Covid-19-shopping-app-backend/blob/master/server.js)\n- continue with https://www.youtube.com/watch?v=jCY6DH8F4oc\n- add a to do list page, with check boxes, and archive of done tasks, with date completed\n- auto size new section text box\n- style the ting\n- add a markdown cheat sheet as a pop up when you hold press a key\n- add options to customise display and styling from page\n- add tags and categories, add tab to sort by category","editor":null}]},{"id":"1ed49e56-b296-4087-99b2-9367f7764027","pageTitle":"page 2","sections":[{"sectionId":0,"content":"section 0"},{"sectionId":1,"content":"- one\n- two\n- three"}]},{"id":"d507b5d2-4e76-43fb-8b28-0e1ad2aab691","pageTitle":"page 3","sections":[{"sectionId":0,"content":"section 0","editor":null},{"sectionId":1,"content":"- one\n- two\n- three"}]},{"id":"80b51a19-edff-4af2-b17d-2a78bb465d83","pageTitle":"page 4","sections":[{"sectionId":0,"content":"section 0","editor":null},{"sectionId":1,"content":"- one\n- two\n- three","editor":null}]},{"id":"c690136e-50de-4d8c-81ba-d18f726bc59c","pageTitle":"page 5","sections":[{"sectionId":0,"content":"section 0"},{"sectionId":1,"content":"- one\n- two\n- three"},{"sectionId":2,"content":"new content here, cheese","editor":null},{"sectionId":3,"content":"new content here, section 4","editor":null}]},{"id":"9581fec5-ccfb-42f9-95cc-c48efa418ddc","pageTitle":"page 8","sections":[{"sectionId":0,"content":"section 0"},{"sectionId":1,"content":"- one\n- two\n- three"}]},{"id":"6851e273-8764-4441-b64f-9de3c54051a3","pageTitle":"page 6","sections":[{"sectionId":0,"content":"section 0"},{"sectionId":1,"content":"- one\n- two\n- three"}]},{"id":"a6e55145-e24c-448f-900f-e640d49e050f","pageTitle":"page 7","sections":[{"sectionId":0,"content":"dotenv in react\nhttps://stackoverflow.com/a/56668716/19211382","editor":null},{"sectionId":1,"content":"- one\n- two\n- three"}]},{"id":"9babd593-7e89-44e8-8177-49999d39ab21","pageTitle":"dotenv in react"}]
+[
+  {
+    "id": "a51eb318-461e-4dd0-9775-810745ec1032",
+    "pageTitle": "page 1",
+    "sections": [
+      { "sectionId": 0, "content": "## This dev-wiki \n", "editor": null },
+      {
+        "sectionId": 1,
+        "content": "- undefined\n- add section button - adds section before section component maps all sections\n- Currently not listening to live changes in the database - unable to update if change is saved to contents to section of a page automatically. \n- Need to add an event listener to the database, to update the contents in state in page.tsx\n- about 10 mins in: [editing sections](https://code.tutsplus.com/courses/building-a-wiki-with-react-and-firebase/lessons/section-component-editing-sections)\n- implement internal links [working with internal links](https://code.tutsplus.com/courses/building-a-wiki-with-react-and-firebase/lessons/working-with-internal-links)",
+        "editor": null
+      },
+      {
+        "sectionId": 2,
+        "content": "To do:\n- [communicating with firebase from the backend - example](https://github.com/salahmak/Covid-19-shopping-app-backend/blob/master/server.js)\n- continue with https://www.youtube.com/watch?v=jCY6DH8F4oc\n- add a to do list page, with check boxes, and archive of done tasks, with date completed\n- auto size new section text box\n- style the ting\n- add a markdown cheat sheet as a pop up when you hold press a key\n- add options to customise display and styling from page\n- add tags and categories, add tab to sort by category",
+        "editor": null
+      },
+      {
+        "sectionId": 3,
+        "content": "Mega stretch goal\n\n- visualise connections between pages, links\n- animate transition from page to other page\n- thinking mindmap",
+        "editor": null
+      }
+    ]
+  },
+  {
+    "id": "1ed49e56-b296-4087-99b2-9367f7764027",
+    "pageTitle": "page 2",
+    "sections": [
+      { "sectionId": 0, "content": "section 0" },
+      { "sectionId": 1, "content": "- one\n- two\n- three" }
+    ]
+  },
+  {
+    "id": "d507b5d2-4e76-43fb-8b28-0e1ad2aab691",
+    "pageTitle": "page 3",
+    "sections": [
+      { "sectionId": 0, "content": "section 0", "editor": null },
+      { "sectionId": 1, "content": "- one\n- two\n- three" }
+    ]
+  },
+  {
+    "id": "80b51a19-edff-4af2-b17d-2a78bb465d83",
+    "pageTitle": "page 4",
+    "sections": [
+      { "sectionId": 0, "content": "section 0", "editor": null },
+      { "sectionId": 1, "content": "- one\n- two\n- three", "editor": null }
+    ]
+  },
+  {
+    "id": "c690136e-50de-4d8c-81ba-d18f726bc59c",
+    "pageTitle": "page 5",
+    "sections": [
+      { "sectionId": 0, "content": "section 0" },
+      { "sectionId": 1, "content": "- one\n- two\n- three" },
+      { "sectionId": 2, "content": "new content here, cheese", "editor": null },
+      { "sectionId": 3, "content": "new content here, section 4", "editor": null }
+    ]
+  },
+  {
+    "id": "9581fec5-ccfb-42f9-95cc-c48efa418ddc",
+    "pageTitle": "page 8",
+    "sections": [
+      { "sectionId": 0, "content": "section 0" },
+      { "sectionId": 1, "content": "- one\n- two\n- three" }
+    ]
+  },
+  {
+    "id": "6851e273-8764-4441-b64f-9de3c54051a3",
+    "pageTitle": "page 6",
+    "sections": [
+      { "sectionId": 0, "content": "section 0" },
+      { "sectionId": 1, "content": "- one\n- two\n- three" }
+    ]
+  },
+  {
+    "id": "a6e55145-e24c-448f-900f-e640d49e050f",
+    "pageTitle": "page 7",
+    "sections": [
+      { "sectionId": 0, "content": "dotenv in react\nhttps://stackoverflow.com/a/56668716/19211382", "editor": null },
+      { "sectionId": 1, "content": "- one\n- two\n- three" }
+    ]
+  }
+]

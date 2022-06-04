@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 
 const authorize = require('../middleware/authorize.js');
-const database = require('../firebase-config.js');
+const database = require('../firebase/firebase-config');
 
 const users = JSON.parse(fs.readFileSync('./database/users.json'));
 
