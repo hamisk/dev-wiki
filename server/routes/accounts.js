@@ -23,20 +23,22 @@ router.use(
   })
 );
 
-// Fetching users from firebase
-const getUsers = async () => {
-  const userList = [];
-  const usersSnapshot = await usersRef.get();
-  usersSnapshot.forEach(doc => {
-    userList.push(doc.data());
-  });
-};
-getUsers();
+// syntax for etching users from firebase
+async function getUsers() {
+  try {
+    let userList = [];
+    const usersSnapshot = await usersRef.get();
+    usersSnapshot.forEach(doc => {
+      userList.push(doc.data());
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 router.post('/signup', (req, res) => {
   console.log('Signup attempt');
-  console.log(req.body);
-  const username = req.body.username,
+  const username = req.body.username.toLowerCase(),
     password = req.body.password;
 
   if (!username || !password) {
@@ -44,30 +46,35 @@ router.post('/signup', (req, res) => {
     // to let front end know our user is not signed in
   }
 
-  // If there is a username
-  if (users.find(user => user.username === username)) {
-    return res.json({ signedIn: false, message: 'username already in use' });
-  }
+  const userList = [];
+  usersRef.get().then(snapshot => {
+    snapshot.forEach(doc => userList.push(doc.data()));
 
-  const userObject = {
-    username: username,
-    passwordHash: hash(password),
-  };
+    // If there is a username
+    if (userList.find(user => user.username === username)) {
+      return res.json({ signedIn: false, message: 'username already in use' });
+    }
 
-  users.push(userObject);
-  fs.writeFileSync('./database/users.json', JSON.stringify(users));
-  // create and return JWT
-  const token = jwt.sign(
-    { username: username }, // 1. payload
-    process.env.JWT_SECRET_KEY, // 2. secret key
-    { expiresIn: '6h' } // 3. options
-  );
+    const userObject = {
+      username: username,
+      passwordHash: hash(password),
+    };
 
-  res.status(200).json({
-    signedIn: true,
-    message: 'Successfully logged in',
-    token: token,
-    user: userObject,
+    usersRef.add(userObject);
+
+    // create and return JWT
+    const token = jwt.sign(
+      { username: username }, // 1. payload
+      process.env.JWT_SECRET_KEY, // 2. secret key
+      { expiresIn: '6h' } // 3. options
+    );
+
+    res.status(200).json({
+      signedIn: true,
+      message: 'Successfully logged in',
+      token: token,
+      user: userObject,
+    });
   });
 });
 
@@ -78,7 +85,7 @@ router.post('/signin', (req, res) => {
   usersRef.get().then(snapshot => {
     snapshot.forEach(doc => userList.push(doc.data()));
 
-    const username = req.body.username,
+    const username = req.body.username.toLowerCase(),
       password = req.body.password;
 
     if (!username || !password) {
