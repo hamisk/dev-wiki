@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Section from '../Section/Section';
 import './Page.scss';
@@ -18,6 +18,7 @@ function Page({ user }: Props) {
     axios.get(apiURL + '/page/' + params.title).then(res => {
       setPage(res.data.page);
       setSections(res.data.page.sections);
+      console.log(res.data.page);
     });
   }, [params]);
 
@@ -31,7 +32,6 @@ function Page({ user }: Props) {
       return setSections([{ sectionId: id, content: 'new content here' }]);
     } else {
       id = Math.max(...sections.map((o: any) => o.sectionId)) + 1;
-      // newSections.push({ sectionId: id, content: '' });
     }
 
     newSections[id] = {

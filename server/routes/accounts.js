@@ -4,10 +4,7 @@ const crypto = require('crypto');
 
 const authorize = require('../middleware/authorize.js');
 const database = require('../firebase/firebase-config');
-
 const usersRef = database.collection('users');
-
-// const users = JSON.parse(fs.readFileSync('./database/users.json'));
 
 const hash = password => {
   return crypto.createHash('sha512').update(password).digest('hex');

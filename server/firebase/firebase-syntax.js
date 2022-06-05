@@ -59,7 +59,26 @@ const observer = doc1.onSnapshot(
   }
 );
 
-// syntax for etching users from firebase
+// Update fields in nested objects
+// If your document contains nested objects, you can use "dot notation" to reference
+// nested fields within the document when you call update():
+const initialData = {
+  name: 'Frank',
+  age: 12,
+  favorites: {
+    food: 'Pizza',
+    color: 'Blue',
+    subject: 'recess',
+  },
+};
+
+// ...
+const res = await db.collection('users').doc('Frank').update({
+  age: 13,
+  'favorites.color': 'Red',
+});
+
+// syntax for fetching users from firebase
 async function getUsers() {
   try {
     let userList = [];
