@@ -4,20 +4,29 @@ const { v4: uuidv4 } = require('uuid');
 
 router.use(require('body-parser').json());
 
-router.post('/create', (req, res) => {
-  const database = JSON.parse(fs.readFileSync('./database/database.json'));
-  const pageTitle = req.body.pageTitle;
-  if (database.find(obj => obj.pageTitle === pageTitle)) {
-    return res.status(400).json({ createdPage: false, message: 'Page already exists' });
-  }
-  const pageObject = {
-    id: uuidv4(),
-    pageTitle: pageTitle,
-  };
+const database = require('../firebase/firebase-config');
+const pagesRef = database.collection('pages');
 
-  database.push(pageObject);
-  fs.writeFileSync('./database/database.json', JSON.stringify(database));
-  res.status(200).json({ createdPage: true, page: pageObject });
+router.post('/create', (req, res) => {
+  // const database = JSON.parse(fs.readFileSync('./database/database.json'));
+  const pageTitle = req.body.pageTitle;
+  const pageList = [];
+  pagesRef.get().then(snapshot => {
+    snapshot.forEach(doc => pageList.push(doc.data()));
+    if (pageList.find(obj => obj.pageTitle === pageTitle)) {
+      return res.status(400).json({ createdPage: false, message: 'Page already exists' });
+    }
+    const pageObject = {
+      id: uuidv4(),
+      pageTitle: pageTitle,
+      sections: [{ sectionId: 0, content: 'new page content' }],
+    };
+
+    pagesRef.add(pageObject);
+    // database.push(pageObject);
+    // fs.writeFileSync('./database/database.json', JSON.stringify(database));
+    res.status(200).json({ createdPage: true, page: pageObject });
+  });
 });
 
 router.get('/all', (req, res) => {

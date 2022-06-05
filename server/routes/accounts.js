@@ -1,14 +1,13 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const fs = require('fs');
 
 const authorize = require('../middleware/authorize.js');
 const database = require('../firebase/firebase-config');
 
 const usersRef = database.collection('users');
 
-const users = JSON.parse(fs.readFileSync('./database/users.json'));
+// const users = JSON.parse(fs.readFileSync('./database/users.json'));
 
 const hash = password => {
   return crypto.createHash('sha512').update(password).digest('hex');
@@ -22,19 +21,6 @@ router.use(
     secret: process.env.JWT_SECRET_KEY,
   })
 );
-
-// syntax for etching users from firebase
-async function getUsers() {
-  try {
-    let userList = [];
-    const usersSnapshot = await usersRef.get();
-    usersSnapshot.forEach(doc => {
-      userList.push(doc.data());
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 router.post('/signup', (req, res) => {
   console.log('Signup attempt');
@@ -131,18 +117,22 @@ router.get('/check-auth', authorize, (req, res) => {
   const usernameFromToken = req.decoded.username;
 
   // find the user from users using username from the token
-  const user = users.find(userObj => userObj.username === usernameFromToken);
+  const userList = [];
+  usersRef.get().then(snapshot => {
+    snapshot.forEach(doc => userList.push(doc.data()));
+    const user = userList.find(userObj => userObj.username === usernameFromToken);
 
-  if (!user) {
-    return res.status(400).json({
-      message: 'User does not exist',
+    if (!user) {
+      return res.status(400).json({
+        message: 'User does not exist',
+      });
+    }
+
+    // send back username
+    return res.status(200).json({
+      signedIn: true,
+      user: user,
     });
-  }
-
-  // send back username
-  return res.status(200).json({
-    signedIn: true,
-    user: user,
   });
 });
 

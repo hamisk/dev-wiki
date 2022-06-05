@@ -58,3 +58,16 @@ const observer = doc1.onSnapshot(
     console.log(`Encountered error: ${err}`);
   }
 );
+
+// syntax for etching users from firebase
+async function getUsers() {
+  try {
+    let userList = [];
+    const usersSnapshot = await usersRef.get();
+    usersSnapshot.forEach(doc => {
+      userList.push(doc.data());
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
