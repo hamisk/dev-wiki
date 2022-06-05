@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import './Section.scss';
 
 const apiURL = 'http://localhost:4000';
@@ -108,7 +109,7 @@ function Section({ section, user, path }: Props) {
           onBlur={save}
         />
       ) : (
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
       )}
     </section>
   );

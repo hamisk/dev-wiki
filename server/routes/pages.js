@@ -69,12 +69,14 @@ router.put('/editTitle/:title', (req, res) => {
   const pageDocId = req.params.title;
   const pageList = [];
 
+  // Check if page title already exists
   pagesRef.get().then(snapshot => {
     snapshot.forEach(doc => pageList.push(doc.data()));
     if (pageList.find(obj => obj.pageTitle === pageTitle)) {
       return res.status(400).json({ editedPageTitle: false, message: 'Page title already exists' });
     }
 
+    // Create new doc with new page title - as firebase doesn't allow the ed
     pagesRef.doc(pageTitle).set({
       id: uuidv4(),
       pageTitle: pageTitle,
@@ -119,9 +121,7 @@ router.put('/editor/:title/sections/:sectionId', (req, res) => {
 });
 
 router.put('/save/:title/sections/:sectionId', (req, res) => {
-  console.log('save route');
-  // console.log(req.body);
-
+  // console.log('save route');
   const content = req.body.content;
   const pageTitle = req.params.title.replace(/\s+/g, '-').toLowerCase();
   const sectionId = Number(req.params.sectionId);
