@@ -29,7 +29,6 @@ function PageList({ user }: Props) {
   };
 
   const update = (evt: any) => {
-    console.log(evt.target.value);
     setNewPageTitle(evt.target.value);
   };
 

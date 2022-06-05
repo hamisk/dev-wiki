@@ -17,10 +17,15 @@ router.post('/create', (req, res) => {
     const pageObject = {
       id: uuidv4(),
       pageTitle: pageTitle,
-      sections: [{ sectionId: 0, content: 'new page content' }],
     };
 
-    pagesRef.doc(pageTitle.replace(/\s+/g, '-').toLowerCase()).set(pageObject);
+    pagesRef.doc(pageTitle).set(pageObject);
+    database
+      .collection('pages')
+      .doc(pageTitle)
+      .collection('sections')
+      .doc(String(0))
+      .set({ sectionId: 0, content: 'new page content' });
     res.status(200).json({ createdPage: true, page: pageObject });
   });
 });
