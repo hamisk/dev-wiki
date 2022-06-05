@@ -34,7 +34,7 @@ function PageList({ user }: Props) {
 
   const createPage = (e: any) => {
     if (e.charCode !== 13) return;
-    console.log(newPageTitle);
+    // console.log(newPageTitle);
     axios
       .post(apiURL + '/page/create', { pageTitle: newPageTitle })
       .then(res => console.log(res.data))

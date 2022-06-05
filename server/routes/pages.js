@@ -64,7 +64,42 @@ router.get('/:title', (req, res) => {
     );
 });
 
-router.post('/editor/:title/sections/:sectionId', (req, res) => {
+router.put('/editTitle/:title', (req, res) => {
+  const pageTitle = req.body.pageTitle.replace(/\s+/g, '-').toLowerCase();
+  const pageDocId = req.params.title;
+  console.log(pageTitle);
+  console.log(pageDocId);
+  const pageList = [];
+
+  pagesRef.get().then(snapshot => {
+    snapshot.forEach(doc => pageList.push(doc.data()));
+    if (pageList.find(obj => obj.pageTitle === pageTitle)) {
+      return res.status(400).json({ editedPageTitle: false, message: 'Page title already exists' });
+    }
+
+    pagesRef
+      .doc(pageDocId)
+      .get()
+      .then(doc => {
+        pagesRef.doc(pageTitle).set(doc.data());
+      });
+    res.status(200);
+
+    // pagesRef.doc(pageTitle).set(pageObject);
+    // database
+    //   .collection('pages')
+    //   .doc(pageTitle)
+    //   .collection('sections')
+    //   .doc(String(0))
+    //   .set({ sectionId: 0, content: 'new page content' });
+    // res.status(200).json({ createdPage: true, page: pageObject });
+  });
+
+  res.status(200);
+  // will need to send request to navigate to new pageId address on front end
+});
+
+router.put('/editor/:title/sections/:sectionId', (req, res) => {
   // When user clicks on section to edit - add editor to section
   const username = req.body.username;
   const pageTitle = req.params.title;
@@ -78,7 +113,7 @@ router.post('/editor/:title/sections/:sectionId', (req, res) => {
   res.status(200).json({ addedEditor: true, page: pageTitle, section: sectionId, editor: username });
 });
 
-router.post('/save/:title/sections/:sectionId', (req, res) => {
+router.put('/save/:title/sections/:sectionId', (req, res) => {
   console.log('save route');
   // console.log(req.body);
 

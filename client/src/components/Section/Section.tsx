@@ -41,7 +41,7 @@ function Section({ section, user, path }: Props) {
     // to let other users know that it's currently being edited, so they can't edit it
     // console.log(path);
     axios
-      .post(
+      .put(
         apiURL + '/page/editor/' + path,
         { username: user.username },
         { headers: { 'Content-Type': 'application/json' } }
@@ -59,7 +59,7 @@ function Section({ section, user, path }: Props) {
     // onBlur is an event handler that checks for when element is no longer in focus
     setEditing(false);
     axios
-      .post(
+      .put(
         apiURL + '/page/save/' + path,
         { content: content || 'empty' }, // If content is empty, ie if user removes content, then null is sent to database to store in section
         { headers: { 'Content-Type': 'application/json' } }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Login.scss';
 
@@ -15,7 +15,7 @@ function Login({ user, setUser }: Props) {
 
   useEffect(() => {
     // Check auth
-    console.log('login useEffect');
+    // console.log('login useEffect');
     let token = sessionStorage.getItem('authToken');
 
     if (token !== (undefined || null)) {
@@ -24,7 +24,7 @@ function Login({ user, setUser }: Props) {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(res => {
-          console.log('set user');
+          // console.log('set user');
           setUser(res.data.user);
         })
         .catch(err => {

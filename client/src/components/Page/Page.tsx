@@ -12,6 +12,8 @@ type Props = {
 function Page({ user }: Props) {
   const [page, setPage] = useState<any>([]);
   const [sections, setSections] = useState<any>([]);
+  const [editPage, setEditPage] = useState<boolean>(false);
+  const [newPageTitle, setNewPageTitle] = useState('');
   const params = useParams();
 
   useEffect(() => {
@@ -25,26 +27,50 @@ function Page({ user }: Props) {
     const newSections = sections.slice();
     // .slice() to create a copy but change reference, so setSection picks up on the change
     let id;
-
     if (!sections) {
       id = 1;
       return setSections([{ sectionId: id, content: 'new content here' }]);
     } else {
       id = Math.max(...sections.map((o: any) => o.sectionId)) + 1;
     }
-
     newSections[id] = {
       sectionId: id,
       content: 'new content here',
       editor: user.username,
     };
-
     return setSections(newSections);
+  };
+
+  const update = (evt: any) => {
+    setNewPageTitle(evt.target.value);
+  };
+
+  const savePageTitle = (e: any) => {
+    setEditPage(false);
+    console.log(newPageTitle);
+    axios
+      .put(apiURL + '/page/editTitle/' + params.title, { pageTitle: newPageTitle })
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
+    setNewPageTitle('');
+    e.target.value = '';
   };
 
   return (
     <div className='page'>
-      <h1 className='page__title'>{page.pageTitle || 'loading'}</h1>
+      <div className='page__title-wrapper' onClick={() => setEditPage(true)}>
+        {editPage ? (
+          <textarea
+            autoFocus
+            className='page__edit-title'
+            defaultValue={page.pageTitle}
+            onChange={update}
+            onBlur={savePageTitle}
+          />
+        ) : (
+          <h1 className='page__title'>{page.pageTitle || 'loading'}</h1>
+        )}
+      </div>
       {sections &&
         sections.map((section: any) => (
           <Section
