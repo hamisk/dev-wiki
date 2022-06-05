@@ -47,13 +47,13 @@ function Page({ user }: Props) {
 
   const savePageTitle = (e: any) => {
     setEditPage(false);
-    console.log(newPageTitle);
     axios
       .put(apiURL + '/page/editTitle/' + params.title, { pageTitle: newPageTitle })
       .then(res => console.log(res.data))
       .catch(err => console.log(err));
-    setNewPageTitle('');
-    e.target.value = '';
+    // setNewPageTitle('');
+    // e.target.value = '';
+    window.location.href = `/page/${newPageTitle.replace(/\s+/g, '-').toLowerCase()}`;
   };
 
   return (

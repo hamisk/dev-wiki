@@ -67,8 +67,6 @@ router.get('/:title', (req, res) => {
 router.put('/editTitle/:title', (req, res) => {
   const pageTitle = req.body.pageTitle.replace(/\s+/g, '-').toLowerCase();
   const pageDocId = req.params.title;
-  console.log(pageTitle);
-  console.log(pageDocId);
   const pageList = [];
 
   pagesRef.get().then(snapshot => {
@@ -77,22 +75,29 @@ router.put('/editTitle/:title', (req, res) => {
       return res.status(400).json({ editedPageTitle: false, message: 'Page title already exists' });
     }
 
+    pagesRef.doc(pageTitle).set({
+      id: uuidv4(),
+      pageTitle: pageTitle,
+    });
+
     pagesRef
       .doc(pageDocId)
+      .collection('sections')
       .get()
-      .then(doc => {
-        pagesRef.doc(pageTitle).set(doc.data());
-      });
+      .then(snapshot => {
+        let sections = [];
+        snapshot.forEach(doc => sections.push(doc.data()));
+        sections.forEach(section => {
+          database
+            .collection('pages')
+            .doc(pageTitle)
+            .collection('sections')
+            .doc(String(section.sectionId))
+            .set(section);
+        });
+      })
+      .then(pagesRef.doc(pageDocId).delete());
     res.status(200);
-
-    // pagesRef.doc(pageTitle).set(pageObject);
-    // database
-    //   .collection('pages')
-    //   .doc(pageTitle)
-    //   .collection('sections')
-    //   .doc(String(0))
-    //   .set({ sectionId: 0, content: 'new page content' });
-    // res.status(200).json({ createdPage: true, page: pageObject });
   });
 
   res.status(200);
