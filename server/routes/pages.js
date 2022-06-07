@@ -7,6 +7,7 @@ const database = require('../firebase/firebase-config');
 const pagesRef = database.collection('pages');
 
 router.post('/create', (req, res) => {
+  const pageTitleUnformatted = req.body.pageTitle;
   const pageTitle = req.body.pageTitle.replace(/\s+/g, '-').toLowerCase();
   const pageList = [];
   pagesRef.get().then(snapshot => {
@@ -16,7 +17,7 @@ router.post('/create', (req, res) => {
     }
     const pageObject = {
       id: uuidv4(),
-      pageTitle: pageTitle,
+      pageTitle: pageTitleUnformatted,
     };
 
     pagesRef.doc(pageTitle).set(pageObject);
@@ -66,7 +67,8 @@ router.get('/:title', (req, res) => {
 
 router.put('/editTitle/:title', (req, res) => {
   const pageTitle = req.body.pageTitle.replace(/\s+/g, '-').toLowerCase();
-  const pageDocId = req.params.title;
+  const pageTitleUnformatted = req.body.pageTitle;
+  const prevTitle = req.params.title; // = document id of page we want to copy
   const pageList = [];
 
   // Check if page title already exists
@@ -76,14 +78,15 @@ router.put('/editTitle/:title', (req, res) => {
       return res.status(400).json({ editedPageTitle: false, message: 'Page title already exists' });
     }
 
-    // Create new doc with new page title - as firebase doesn't allow the ed
+    // Create new doc with new page title - as firebase doesn't allow the editing of document IDs
     pagesRef.doc(pageTitle).set({
       id: uuidv4(),
-      pageTitle: pageTitle,
+      pageTitle: pageTitleUnformatted,
     });
 
+    // Iterate through sections to copy to new document
     pagesRef
-      .doc(pageDocId)
+      .doc(prevTitle)
       .collection('sections')
       .get()
       .then(snapshot => {
@@ -98,7 +101,8 @@ router.put('/editTitle/:title', (req, res) => {
             .set(section);
         });
       })
-      .then(pagesRef.doc(pageDocId).delete());
+      // delete old document
+      .then(pagesRef.doc(prevTitle).delete());
     res.status(200);
   });
 

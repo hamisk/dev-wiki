@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import './Section.scss';
+import { database } from '../../utils/firebase-config';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 const apiURL = 'http://localhost:4000';
 
@@ -23,9 +25,14 @@ function Section({ section, user, path }: Props) {
   // we use this to decide whether content is rendered into html, or as markdown in a textbox to be edited
   const [locked, setLocked] = useState<boolean>(user && section.editor && user.username !== section.editor);
 
+  const liveListener = onSnapshot(doc(database, 'pages/' + path), doc => {
+    console.log('Current data: ', doc.data());
+  });
+
   useEffect(() => {
     // makeLinks(content, (content: any) => setContent(content));
     setContent(section.content);
+    liveListener();
   }, [section]);
 
   const startEditing = (e: any) => {
