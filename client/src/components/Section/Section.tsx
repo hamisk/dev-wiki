@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import './Section.scss';
@@ -17,6 +17,9 @@ type Props = {
 function Section({ section, user, path }: Props) {
   const [content, setContent] = useState(section.content);
   const [editing, setEditing] = useState<boolean>(user && user.username === section.editor);
+  const [editor, setEditor] = useState<any>(section.editor || null);
+  console.log(user && user.username);
+  console.log(section.editor);
   // editing = boolean: user - to see if a user is currently logged in
   // user.username === section.editor
   // new sections have an editor assigned when created - the current user who created it
@@ -27,12 +30,13 @@ function Section({ section, user, path }: Props) {
 
   const liveListener = onSnapshot(doc(database, 'pages/' + path), doc => {
     console.log('Current data: ', doc.data());
+    setEditor(doc.data()?.editor);
+    console.log(editor);
   });
 
   useEffect(() => {
     // makeLinks(content, (content: any) => setContent(content));
     setContent(section.content);
-    liveListener();
   }, [section]);
 
   const startEditing = (e: any) => {
@@ -105,12 +109,13 @@ function Section({ section, user, path }: Props) {
       .catch(err => console.log(err));
   };
 
+  console.log('rerender');
   return (
-    <section className='section' onClick={startEditing}>
+    <section className={classes.join(' ')} onClick={startEditing}>
       {editing ? (
         <textarea
           autoFocus
-          className={classes.join(' ')}
+          className='section__editing'
           defaultValue={content}
           onChange={updateContent}
           onBlur={save}
