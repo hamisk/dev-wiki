@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Section from '../Section/Section';
 import './Page.scss';
+// import { database } from '../../utils/firebase-config';
+// import { collection, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 const apiURL = 'http://localhost:4000';
 
 type Props = {
@@ -22,6 +24,23 @@ function Page({ user }: Props) {
       setSections(res.data.page.sections);
     });
   }, [params]);
+
+  // const pageSectionsRef = collection(database, `pages/${params.title}/sections`);
+  // const getSectionsSnap = async () => {
+  //   const sectionSnap = await getDocs(pageSectionsRef);
+  //   sectionSnap.forEach(doc => console.log(doc.data()));
+  // };
+  // getSectionsSnap();
+
+  // const q = query(collection(database, `pages/${params.title}/sections`));
+  // const unsubscribe = onSnapshot(q, querySnapshot => {
+  //   const liveSections: any = [];
+  //   querySnapshot.forEach(doc => {
+  //     liveSections.push(doc.data());
+  //   });
+  //   console.log(liveSections);
+  //   setSections(liveSections);
+  // });
 
   const addSection = (e: any) => {
     const newSections = sections.slice();
