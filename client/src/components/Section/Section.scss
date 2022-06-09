@@ -9,9 +9,9 @@
   display: flex;
   flex-direction: column;
   // align-items: center;
+  border: 1px solid lightseagreen;
 
   &__editing {
-    border: 1px solid lightseagreen;
     width: 98%;
     height: 12rem;
     border-radius: 0.25rem;

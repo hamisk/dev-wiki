@@ -43,7 +43,7 @@ function Login({ user, setUser }: Props) {
           let token = res.data.token;
           sessionStorage.setItem('authToken', token);
           setUser(res.data.user);
-          console.log(res.data);
+          // console.log(res.data);
         });
     }
   };

@@ -22,14 +22,17 @@ function Section({ section, user, path }: Props) {
   // we use this to decide whether content is rendered into html, or as markdown in a textbox to be edited
   // user.username === section.editor
   // when user clicks on a section, they become editor for that section, so that they can edit it
-  const [editor, setEditor] = useState<any>(section.editor);
-  const [locked, setLocked] = useState<boolean>(user && section.editor && user.username !== editor);
+  const [locked, setLocked] = useState<boolean>(user && section.editor && user.username !== section.editor);
 
-  // const liveListener = onSnapshot(doc(database, 'pages/' + path), doc => {
-  //   // console.log('Current data: ', doc.data());
-  //   setEditor(doc.data()?.editor);
-  //   setLocked((user && section.editor && user.username !== section.editor) || false);
-  // });
+  useEffect(() => {
+    // listener for live updates from firestore database
+    //
+    const liveListener = onSnapshot(doc(database, 'pages/' + path), doc => {
+      // doc.data() here is fetching the section data.
+      setLocked((user && doc.data()?.editor && user.username !== doc.data()?.editor) || false);
+    });
+    return () => liveListener();
+  }, []);
 
   useEffect(() => {
     // makeLinks(content, (content: any) => setContent(content));
@@ -75,7 +78,7 @@ function Section({ section, user, path }: Props) {
       });
   };
 
-  let classes = ['section__editing'];
+  let classes = ['section'];
   if (editing) classes.push('editing');
   if (user) classes.push(locked ? 'locked' : 'editable');
   // Section should highlight grey when hovering over to indicate that section is editable
