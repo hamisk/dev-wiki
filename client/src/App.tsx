@@ -17,7 +17,7 @@ function App() {
         collapse
       </button>
       <BrowserRouter>
-        <Sidebar user={user} setUser={setUser} collapseSide={collapseSide} setCollapseSide={setCollapseSide} />
+        <Sidebar user={user} setUser={setUser} collapseSide={collapseSide} />
         <Routes>
           <Route path='/page/:title' element={<Page user={user} collapseSide={collapseSide} />} />
         </Routes>

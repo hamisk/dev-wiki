@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Section from '../Section/Section';
 import './Page.scss';
-// import { database } from '../../utils/firebase-config';
-// import { collection, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 const apiURL = 'http://localhost:4000';
 
 type Props = {
@@ -12,12 +10,17 @@ type Props = {
   collapseSide: boolean;
 };
 
-function Page({ user }: Props) {
+function Page({ user, collapseSide }: Props) {
   const [page, setPage] = useState<any>([]);
   const [sections, setSections] = useState<any>([]);
   const [editPage, setEditPage] = useState<boolean>(false);
   const [newPageTitle, setNewPageTitle] = useState('');
   const params = useParams();
+
+  let pageClass = 'page';
+  if (collapseSide) {
+    pageClass = 'page page-collapsed';
+  }
 
   useEffect(() => {
     axios.get(apiURL + '/page/' + params.title).then(res => {
@@ -25,23 +28,6 @@ function Page({ user }: Props) {
       setSections(res.data.page.sections);
     });
   }, [params]);
-
-  // const pageSectionsRef = collection(database, `pages/${params.title}/sections`);
-  // const getSectionsSnap = async () => {
-  //   const sectionSnap = await getDocs(pageSectionsRef);
-  //   sectionSnap.forEach(doc => console.log(doc.data()));
-  // };
-  // getSectionsSnap();
-
-  // const q = query(collection(database, `pages/${params.title}/sections`));
-  // const unsubscribe = onSnapshot(q, querySnapshot => {
-  //   const liveSections: any = [];
-  //   querySnapshot.forEach(doc => {
-  //     liveSections.push(doc.data());
-  //   });
-  //   console.log(liveSections);
-  //   setSections(liveSections);
-  // });
 
   const addSection = (e: any) => {
     const newSections = sections.slice();
@@ -77,7 +63,7 @@ function Page({ user }: Props) {
   };
 
   return (
-    <div className='page'>
+    <div className={pageClass}>
       <div className='page__title-wrapper' onClick={() => setEditPage(true)}>
         {editPage ? (
           <textarea

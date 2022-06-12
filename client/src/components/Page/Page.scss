@@ -9,6 +9,7 @@
   flex-direction: column;
   align-items: center;
   background-color: whitesmoke;
+  transition: all 2s;
 
   &__title-wrapper {
     display: flex;
@@ -20,4 +21,9 @@
     // position: absolute;
     margin-left: 1rem;
   }
+}
+
+.page-collapsed {
+  width: 100%;
+  transition: all 2s;
 }

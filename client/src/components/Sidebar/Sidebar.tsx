@@ -8,10 +8,9 @@ type Props = {
   user: any;
   setUser: any;
   collapseSide: boolean;
-  setCollapseSide: any;
 };
 
-function Sidebar({ user, setUser, collapseSide, setCollapseSide }: Props) {
+function Sidebar({ user, setUser, collapseSide }: Props) {
   let sidebarClass = 'sidebar';
   if (collapseSide) {
     sidebarClass = 'sidebar collapsed';
