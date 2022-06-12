@@ -7,11 +7,18 @@ import dwLogo from '../../assets/logo/dw-wiki.png';
 type Props = {
   user: any;
   setUser: any;
+  collapseSide: boolean;
+  setCollapseSide: any;
 };
 
-function Sidebar({ user, setUser }: Props) {
+function Sidebar({ user, setUser, collapseSide, setCollapseSide }: Props) {
+  let sidebarClass = 'sidebar';
+  if (collapseSide) {
+    sidebarClass = 'sidebar collapsed';
+  }
+
   return (
-    <div className='sidebar'>
+    <div className={sidebarClass}>
       <img src={dwLogo} alt='dev wiki logo' className='sidebar__logo' />
       <div className='sidebar__login'>
         <h1 className='sidebar__title'>Dev Wiki</h1>

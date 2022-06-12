@@ -9,6 +9,7 @@ const apiURL = 'http://localhost:4000';
 
 type Props = {
   user: any;
+  collapseSide: boolean;
 };
 
 function Page({ user }: Props) {
