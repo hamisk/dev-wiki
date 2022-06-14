@@ -116,11 +116,9 @@ router.put('/editor/:title/sections/:sectionId', (req, res) => {
   const pageTitle = req.params.title;
   const sectionId = Number(req.params.sectionId);
 
-  // to do - add editor when editing, and add event listener to front end
-  // database.collection('pages').doc(pageTitle).collection('sections').doc(String(sectionId)).set({
-  //   sectionId: sectionId,
-  //   content: content,
-  // });
+  database.collection('pages').doc(pageTitle).collection('sections').doc(String(sectionId)).update({
+    editor: username,
+  });
   res.status(200).json({ addedEditor: true, page: pageTitle, section: sectionId, editor: username });
 });
 
@@ -133,6 +131,7 @@ router.put('/save/:title/sections/:sectionId', (req, res) => {
   database.collection('pages').doc(pageTitle).collection('sections').doc(String(sectionId)).set({
     sectionId: sectionId,
     content: content,
+    editor: null,
   });
 
   res.status(200).json({ savedEdits: true, page: pageTitle, section: sectionId });
