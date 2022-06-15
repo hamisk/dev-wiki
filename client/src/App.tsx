@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Page from './components/Page/Page';
 import Sidebar from './components/Sidebar/Sidebar';
+import { User } from './types';
 
-function App() {
-  const [user, setUser] = useState(null);
-  const [collapseSide, setCollapseSide] = useState(false);
+const App: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [collapseSide, setCollapseSide] = useState<boolean>(false);
 
   return (
     <div className='App'>
@@ -24,6 +25,6 @@ function App() {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;

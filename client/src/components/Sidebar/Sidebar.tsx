@@ -3,15 +3,16 @@ import Login from '../Login/Login';
 import PageList from '../PageList/PageList';
 import './SideBar.scss';
 import dwLogo from '../../assets/logo/dw-wiki.png';
+import { SetStateFunction, User } from '../../types';
 
 type Props = {
-  user: any;
-  setUser: any;
+  user: User | null;
+  setUser: SetStateFunction;
   collapseSide: boolean;
 };
 
 function Sidebar({ user, setUser, collapseSide }: Props) {
-  let sidebarClass = 'sidebar';
+  let sidebarClass: string = 'sidebar';
   if (collapseSide) {
     sidebarClass = 'sidebar collapsed';
   }

@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Login.scss';
+import { SetStateFunction, User } from '../../types';
 
 const apiURL = 'http://localhost:4000';
 
 type Props = {
-  user: any;
-  setUser: any;
+  user: User | null;
+  setUser: SetStateFunction;
 };
 
 function Login({ user, setUser }: Props) {
@@ -15,7 +16,6 @@ function Login({ user, setUser }: Props) {
 
   useEffect(() => {
     // Check auth
-    // console.log('login useEffect');
     let token = sessionStorage.getItem('authToken');
 
     if (token !== (undefined || null)) {
@@ -24,7 +24,6 @@ function Login({ user, setUser }: Props) {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(res => {
-          // console.log('set user');
           setUser(res.data.user);
         })
         .catch(err => {
@@ -43,7 +42,6 @@ function Login({ user, setUser }: Props) {
           let token = res.data.token;
           sessionStorage.setItem('authToken', token);
           setUser(res.data.user);
-          // console.log(res.data);
         });
     }
   };
@@ -61,7 +59,6 @@ function Login({ user, setUser }: Props) {
       axios
         .post(apiURL + '/users/signup', { username, password }, { headers: { 'Content-Type': 'application/json' } })
         .then(res => {
-          console.log(res.data);
           setUser(res.data.user);
           let token = res.data.token;
           sessionStorage.setItem('authToken', token);
@@ -69,13 +66,7 @@ function Login({ user, setUser }: Props) {
         .catch(err => {
           console.log(err);
         });
-
-      fbCreateUser(username, password);
     }
-  };
-
-  const fbCreateUser = async (username: string, password: string) => {
-    // await addDoc(usersCollectionRef, { username: username, password: password });
   };
 
   return (

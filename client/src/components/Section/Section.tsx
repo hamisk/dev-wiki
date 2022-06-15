@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import './Section.scss';
 import { database } from '../../utils/firebase-config';
 import { doc, onSnapshot } from 'firebase/firestore';
+import './Section.scss';
 
 const apiURL = 'http://localhost:4000';
 
@@ -17,8 +17,7 @@ type Props = {
 function Section({ section, user, path }: Props) {
   const [content, setContent] = useState(section.content);
   const [editing, setEditing] = useState<boolean>(user && user.username === section.editor);
-  // editing = boolean: user - to see if a user is currently logged in
-  // editing - tells us whether or not the current user is editing
+  // editing - tells us whether or not the current user is editor associated with the section
   // we use this to decide whether content is rendered into html, or as markdown in a textbox to be edited
   // user.username === section.editor
   // when user clicks on a section, they become editor for that section, so that they can edit it
@@ -44,7 +43,7 @@ function Section({ section, user, path }: Props) {
       //don't want to enable editing if user just clicking a link
       return;
     }
-    // don't run this function if we don't have a logged in user, or if they're already editing
+    // don't run this function if we don't have a logged in user, or if they're already editing, or if it's being edited by another user
     if (!user || editing || locked) return;
 
     setEditing(true);
